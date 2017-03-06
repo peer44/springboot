@@ -1,8 +1,10 @@
 package com.gwc.controller;
 
+import com.gwc.context.SystemProperties;
 import com.gwc.dao.ReadingListRepository;
 import com.gwc.entity.Book;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +21,10 @@ import java.util.List;
 public class ReadingListController {
     @Autowired
     private ReadingListRepository readingListRepository;
+    @Autowired
+    private SystemProperties systemProperties;
+    @Value("${server.port}")
+    private String serverPort;
 
     @RequestMapping(value="/{reader}",method = RequestMethod.GET)
     public String readersBooks(@PathVariable("reader") String reader,Model model){
@@ -26,6 +32,8 @@ public class ReadingListController {
         if(readingList!=null){
             model.addAttribute("books",readingList);
         }
+        System.out.println(serverPort);
+        System.out.println(systemProperties.getLocalhost());
         return "readingList";
     }
 
